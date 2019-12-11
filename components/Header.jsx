@@ -1,18 +1,26 @@
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { fab } from '@fortawesome/free-brands-svg-icons'
-import { faCheckSquare, faCoffee, faSearch } from '@fortawesome/free-solid-svg-icons'
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fab } from '@fortawesome/free-brands-svg-icons';
+import { faCheckSquare, faCoffee, faSearch } from '@fortawesome/free-solid-svg-icons';
+import '../static/bootstrap.min.css';
 
 library.add(fab, faCheckSquare, faCoffee, faSearch)
 
 const HeaderContainer = styled.div`
     max-width: 1280px;
     width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0; 
+    right: 0;
+    padding: 30px 20px;
+    // border-bottom: 1px solid #D4D9E2;
     background: #FFFFFF;
     display: block;
-    padding: 30px 20px;
+    z-index: 1000;
     margin: 0 auto;
+
     .mid-content{
         padding: 25px 0; 
         & div {
@@ -62,6 +70,40 @@ const HeaderContainer = styled.div`
         cursor: pointer;
         @media screen and (max-width: 991px) {
             display: none;
+        }
+    }
+
+    .accountSettingsHeader{
+        text-align: right;
+        span{
+            color: #5A6377;	
+            font-family: "Proxima Nova";	
+            font-size: 18px;	
+            font-weight: 600;	
+            line-height: 22px;	
+            text-align: center;
+            display: inline-block;
+            margin-right: 20px;
+            font-weight: 500;
+        }
+
+        button{
+            padding: 10px 30px;
+            border-radius: 5px;	
+            border: 0;
+            font-family: "Proxima Nova";	
+            font-size: 18px;	
+            font-weight: 600;	
+            line-height: 22px;
+        }
+        & .nextButton{
+            background-color: #1B5DFF;
+            color: #fff;
+        }
+        & .previousButton{
+            border: 1px solid #D4D9E2;
+            color: #5A6377;
+            margin-right: 20px;
         }
     }
 
@@ -177,65 +219,75 @@ const Header = props => {
     
     return (
         <HeaderContainer className="container-fluid row">
-            <div className="col-xs-6 col-md-1 logo">
-                <img src="../static/logo.svg" alt="UX Stories" height="72px" width="74px" />
-            </div>
-            <div className="hidden-xs hidden-sm col-md-8 mid-content">              
-                <div>
-                    <a className="midSection">Stories</a>
-                    <a className="midSection">Resources</a>
-                    <a className="midSection">Jobs</a>
-                    <a className="midSection">Professionals</a>
-                    <a className="dotSection">
-                        . . .
-                    </a>
+                <div className="col-xs-6 col-md-1 logo">
+                    <img src="../static/logo.svg" alt="UX Stories" height="72px" width="74px" />
                 </div>
-            </div>
-            <div className="col-xs-6 col-md-3 right-content">
-                <div>
-                    <div className="search"><FontAwesomeIcon icon="search" size="lg" /></div>
-                    { props.page === "login" ? 
-                        <a className="joinClass" href="./signup">Join Community</a> : 
-                        <a className="loginClass" href="./login">Login</a>
-                    }
-                    <span className="menu-btn" onClick= { openNav }>&#9776;</span>
+                {
+                    props.page === "accStep1" ?
+                    <div className="col-md-11 col-xs-6 accountSettingsHeader">
+                        <span>Profile settings step 1 of 4</span>
+                        <button className="previousButton" onClick = { props.onClick }>Previous</button>
+                        <button className="nextButton" onClick = { props.onClick }>Next</button>
+                    </div> :
+                    <>
+                        <div className="hidden-xs hidden-sm col-md-8 mid-content">              
+                            <div>
+                                <a className="midSection">Stories</a>
+                                <a className="midSection">Resources</a>
+                                <a className="midSection">Jobs</a>
+                                <a className="midSection">Professionals</a>
+                                <a className="dotSection">
+                                    . . .
+                                </a>
+                            </div>
+                        </div>
+                        <div className="col-xs-6 col-md-3 right-content">  
+                            <div>
+                                <div className="search"><FontAwesomeIcon icon="search" size="lg" /></div>
+                                    { props.page === "login" ? 
+                                        <a className="joinClass" href="./signup">Join Community</a> : 
+                                        <a className="loginClass" href="./login">Login</a>
+                                    }
+                                <span className="menu-btn" onClick= { openNav }>&#9776;</span>
+                            </div>
+                        </div>
+                    </>
+                }
+                <div id="mySidenav" className="sidenav">
+                    <a href="javascript:void(0)" className="closebtn" onClick={ closeNav }>&times;</a>
+                    <ul>
+                        <li className="heading-list">Stories
+                            <ul className="subheading-list">
+                                <li>Case Studies</li>
+                                <li>Discussions</li>
+                            </ul>
+                        </li>
+                        <li className="heading-list">Resources
+                            <ul className="subheading-list">
+                                <li>Articles</li>
+                                <li> E-books</li>
+                                <li>Tools</li>
+                                <li>Videos</li>
+                            </ul>
+                        </li>
+                        <li className="heading-list">Jobs
+                            <ul className="subheading-list">
+                                <li>View Jobs</li>
+                                <li>Post Job</li>
+                            </ul>
+                        </li>
+                        <li className="heading-list">Professionals</li>
+                        <li className="heading-list">About Us</li>
+                        <li className="heading-list">Contact</li>
+                        <li className="heading-list">Terms & Conditions</li>
+                    </ul>
+                    <div className="joinLogin">
+                        { props.page === "login" ? 
+                            <a className="joinMobileClass" href="./signup">Join Community</a> : 
+                            <a className="loginMobileClass" href="./login">Login</a>
+                        }
+                    </div>
                 </div>
-            </div>
-            <div id="mySidenav" className="sidenav">
-                <a href="javascript:void(0)" className="closebtn" onClick={ closeNav }>&times;</a>
-                <ul>
-                    <li class="heading-list">Stories
-                        <ul class="subheading-list">
-                            <li>Case Studies</li>
-                            <li>Discussions</li>
-                        </ul>
-                    </li>
-                    <li class="heading-list">Resources
-                        <ul class="subheading-list">
-                            <li>Articles</li>
-                            <li> E-books</li>
-                            <li>Tools</li>
-                            <li>Videos</li>
-                        </ul>
-                    </li>
-                    <li class="heading-list">Jobs
-                        <ul class="subheading-list">
-                            <li>View Jobs</li>
-                            <li>Post Job</li>
-                        </ul>
-                    </li>
-                    <li class="heading-list">Professionals</li>
-                    <li class="heading-list">About Us</li>
-                    <li class="heading-list">Contact</li>
-                    <li class="heading-list">Terms & Conditions</li>
-                </ul>
-                <div className="joinLogin">
-                    { props.page === "login" ? 
-                        <a className="joinMobileClass" href="./signup">Join Community</a> : 
-                        <a className="loginMobileClass" href="./login">Login</a>
-                    }
-                </div>
-            </div>
         </HeaderContainer>
     )
 };
